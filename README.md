@@ -49,7 +49,6 @@ Weapons auto-fire — **you handle the moving**.
 |---|---|
 | `never_still.html` | The game — single file, Three.js r160 |
 | `never_still_presentation.html` | Class presentation — single file, zero dependencies |
-| `never_still_speech_script.docx` | Speaker notes for presenting the deck (optional) |
 
 ## Tech
 
