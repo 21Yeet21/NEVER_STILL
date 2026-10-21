@@ -1,13 +1,3 @@
-I'll get the project ready for GitHub — first let me check the current state of the files (and whether the agenda + thank-you slide change from before ever landed), then write the README.
-The worklog shows the agenda + Thank You slides were already completed (deck is now 13 slides) — good. I also see there's already a `README.md` in the folder and the game itself (`never_still.html`). Let me check the existing README and verify the current file states.
-The current README is just a placeholder line — I'll write a proper one. Let me grab the game's full controls list so the README is accurate.
-The existing README is just a placeholder line, and the deck is confirmed at 13 slides. The project is actually **two artifacts**: the game (`never_still.html`, v0.7) and the class presentation. I'll write a proper GitHub README covering both, using the game's real controls and systems.
-README written. Now let me log this in the worklog.
-Done — your README is ready. Quick status check first: the deck on disk is already the final **13-slide version** (with the agenda slide and Thank You page), so the repo files are current.
-
-The README is saved at `/home/z/my-project/download/README.md`, right next to the two files it describes. Here's the full content to copy-paste into GitHub:
-
-````markdown
 # NEVER STILL
 
 > A kinetic roguelite where **movement is your weapon**. Built to fit inside a Pomodoro break.
@@ -71,5 +61,4 @@ Weapons auto-fire — **you handle the moving**.
 ## Author
 
 **Ayoub Touihri** — ING-3-F
-````
 
