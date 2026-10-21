@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEVER STILL — English Presentation</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root{
+  --bg:#0B1814; --bg2:#10241D; --panel:rgba(255,255,255,.045);
+  --cream:#F2EAD8; --cyan:#56E0E8; --pink:#FF6B9D; --gold:#E8B64C;
+  --mut:#9DB4AB; --body:#C9D6CD; --line:rgba(242,234,216,.14);
+  --rainbow:linear-gradient(90deg,#FF6B9D,#E8B64C,#7CE87C,#56E0E8,#8B7CF6,#FF6B9D);
+}
+html,body{height:100%;}
+body{
+  font-family:'Segoe UI','Trebuchet MS',Verdana,Geneva,sans-serif;
+  background:
+    radial-gradient(1100px 600px at 78% -10%, rgba(86,224,232,.10), transparent 60%),
+    radial-gradient(900px 640px at 8% 108%, rgba(255,107,157,.08), transparent 55%),
+    radial-gradient(1200px 800px at 50% 50%, rgba(232,182,76,.04), transparent 70%),
+    linear-gradient(160deg,#0E201A 0%, #0B1814 55%, #0A1512 100%);
+  color:var(--cream); overflow:hidden;
+}
+/* ---------- fixed chrome ---------- */
+.rainbow-bar{position:fixed;top:0;left:0;right:0;height:6px;background:var(--rainbow);opacity:.5;z-index:900;}
+.progress{position:fixed;top:0;left:0;height:6px;width:8%;background:linear-gradient(90deg,var(--gold),#ffe9b0);box-shadow:0 0 18px rgba(232,182,76,.8);z-index:950;transition:width .35s ease;}
+.counter{position:fixed;bottom:26px;left:30px;background:rgba(11,24,20,.8);border:1px solid var(--line);border-radius:30px;padding:9px 20px;font-weight:600;color:var(--cyan);letter-spacing:.08em;font-size:.95em;z-index:900;backdrop-filter:blur(6px);}
+.counter span{color:var(--cream);}
+.nav-controls{position:fixed;bottom:24px;right:28px;display:flex;gap:14px;z-index:900;}
+.nav-btn{width:52px;height:52px;border-radius:50%;border:1px solid rgba(232,182,76,.5);background:radial-gradient(circle at 32% 28%,#f4cf7d,#E8B64C 58%,#a97a1e);color:#241703;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(0,0,0,.45);transition:transform .22s ease, box-shadow .22s ease;}
+.nav-btn:hover{transform:scale(1.12);box-shadow:0 14px 34px rgba(232,182,76,.35);}
+.hintbar{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);color:var(--mut);font-size:.88em;letter-spacing:.05em;display:flex;gap:16px;align-items:center;z-index:900;white-space:nowrap;}
+.hintbar kbd{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:6px;padding:2px 9px;font-family:inherit;font-size:.92em;color:var(--cream);}
+.hintbar .sep{opacity:.45;}
+@media (max-width:980px){ .hintbar{display:none;} }
+/* ---------- slides ---------- */
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:64px 90px 120px;opacity:0;visibility:hidden;transform:translateX(70px);transition:opacity .55s cubic-bezier(.4,0,.2,1),transform .55s cubic-bezier(.4,0,.2,1),visibility .55s;overflow:hidden;}
+.slide.active{opacity:1;visibility:visible;transform:none;}
+.slide.prev{transform:translateX(-70px);}
+.inner{max-width:1240px;margin:0 auto;width:100%;}
+.kicker{color:var(--cyan);text-transform:uppercase;letter-spacing:.42em;font-size:.92em;font-weight:600;margin-bottom:18px;display:flex;align-items:center;gap:14px;}
+.kicker::before{content:"";width:34px;height:2px;background:var(--cyan);display:inline-block;}
+.slide-title{font-size:clamp(2.2em,3.9vw,3.55em);font-weight:800;line-height:1.12;letter-spacing:.01em;text-shadow:0 4px 30px rgba(86,224,232,.22);margin-bottom:20px;}
+.slide-title em{font-style:normal;color:var(--gold);}
+.lead{font-size:clamp(1.05em,1.4vw,1.28em);line-height:1.75;color:var(--body);max-width:66ch;}
+.lead b, .card p b{color:var(--cream);}
+.lead .hl{color:var(--cyan);font-weight:600;}
+/* ---------- cards & grids ---------- */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:36px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px;align-items:stretch;}
+.card{background:linear-gradient(165deg,rgba(255,255,255,.055),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:18px;padding:28px 30px;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease;}
+.card:hover{transform:translateY(-6px);border-color:rgba(86,224,232,.45);box-shadow:0 22px 50px rgba(0,0,0,.35);}
+.card h3{font-size:1.28em;margin-bottom:12px;display:flex;align-items:center;gap:13px;color:var(--cream);}
+.card p{font-size:1.03em;line-height:1.72;color:var(--body);}
+.num-badge{flex:0 0 30px;width:30px;height:30px;transform:rotate(45deg);border-radius:7px;background:linear-gradient(135deg,var(--gold),#b07f1f);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(232,182,76,.35);}
+.num-badge i{transform:rotate(-45deg);font-style:normal;font-weight:800;font-size:.85em;color:#241703;}
+.cy{color:var(--cyan);font-weight:600;} .pk{color:var(--pink);font-weight:600;} .gd{color:var(--gold);font-weight:600;}
+/* expandable trigger cards */
+.expand{cursor:pointer;position:relative;border-color:rgba(86,224,232,.35);}
+.expand:hover{border-color:var(--cyan);box-shadow:0 22px 55px rgba(86,224,232,.14);}
+.expand::after{content:"⤢";position:absolute;top:16px;right:20px;color:var(--cyan);font-size:1.15em;opacity:.55;transition:.3s ease;}
+.expand:hover::after{opacity:1;transform:scale(1.25);}
+.expand-hint{display:inline-block;margin-top:14px;font-size:.82em;color:var(--cyan);letter-spacing:.18em;text-transform:uppercase;opacity:.75;}
+/* chips / strips / kbd */
+.strip{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+.chip{border:1px solid var(--line);border-radius:999px;padding:10px 22px;font-size:1em;color:var(--body);background:rgba(255,255,255,.03);}
+.chip b{color:var(--cream);}
+.chip.arrow{border:none;background:none;color:var(--gold);padding:10px 2px;font-weight:700;}
+.kbd{display:inline-block;min-width:34px;text-align:center;background:rgba(255,255,255,.09);border:1px solid rgba(242,234,216,.28);border-bottom-width:3px;border-radius:8px;padding:6px 13px;font-weight:700;color:var(--cream);font-size:.95em;}
+.kbd-row{display:grid;grid-template-columns:212px 132px 1fr;gap:0 14px;align-items:center;margin-bottom:18px;font-size:1.05em;color:var(--body);}
+.kbd-row .keys{display:flex;gap:8px;flex-wrap:wrap;}
+.kbd-row .what{color:var(--cream);font-weight:600;}
+.quote{margin-top:36px;border-left:4px solid var(--gold);background:linear-gradient(90deg,rgba(232,182,76,.10),transparent 70%);border-radius:0 16px 16px 0;padding:26px 32px;font-size:clamp(1.15em,1.7vw,1.5em);line-height:1.6;font-style:italic;color:var(--cream);}
+.quote span{color:var(--gold);}
+/* loop chips (pitch) */
+.loopchips{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:32px;}
+.lnode{border:1px solid rgba(86,224,232,.4);background:rgba(86,224,232,.08);border-radius:14px;padding:16px 24px;font-weight:700;color:var(--cream);font-size:1.08em;letter-spacing:.04em;}
+.lnode small{display:block;font-weight:400;color:var(--mut);font-size:.72em;letter-spacing:.02em;margin-top:3px;}
+.larr{color:var(--gold);font-size:1.5em;font-weight:700;}
+.ministats{display:flex;gap:44px;margin-top:38px;flex-wrap:wrap;}
+.ministats .m b{display:block;font-size:2.1em;color:var(--gold);font-weight:800;}
+.ministats .m span{color:var(--mut);font-size:.95em;letter-spacing:.06em;}
+/* cover */
+.cover .inner{text-align:center;}
+.logo{position:relative;width:120px;height:120px;margin:0 auto 30px;}
+.logo .d{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);border-radius:10px;}
+.logo .d1{width:104px;height:104px;border:2px solid rgba(232,182,76,.9);box-shadow:0 0 40px rgba(232,182,76,.35);}
+.logo .d2{width:72px;height:72px;border:2px solid rgba(86,224,232,.85);box-shadow:0 0 30px rgba(86,224,232,.3);}
+.logo .d3{width:40px;height:40px;background:linear-gradient(135deg,var(--pink),#c74e78);box-shadow:0 0 26px rgba(255,107,157,.5);}
+.wave{position:absolute;pointer-events:none;opacity:.85;}
+.wave.w1{top:10%;left:4%;width:300px;}
+.wave.w2{bottom:16%;right:4%;width:300px;transform:scaleX(-1);}
+.cover-kicker{color:var(--gold);text-transform:uppercase;letter-spacing:.5em;font-size:1em;margin-bottom:22px;}
+.cover-title{font-size:clamp(3.4em,8vw,7em);font-weight:900;letter-spacing:.06em;line-height:1;color:var(--cream);text-shadow:0 6px 40px rgba(0,0,0,.6),0 0 70px rgba(86,224,232,.28);}
+.cover-sub{color:var(--cyan);font-size:clamp(1.2em,2.2vw,1.9em);font-weight:700;letter-spacing:.3em;margin-top:20px;}
+.cover-line{color:var(--body);font-size:clamp(1em,1.5vw,1.25em);margin-top:20px;line-height:1.7;}
+.cover-cols{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:52px;text-align:left;}
+.cover-box{border:1px solid var(--line);border-radius:16px;padding:20px 26px;background:rgba(255,255,255,.03);}
+.cover-box .t{color:var(--gold);font-size:.8em;letter-spacing:.35em;text-transform:uppercase;margin-bottom:8px;}
+.cover-box .v{color:var(--cream);font-weight:600;font-size:1.06em;line-height:1.55;}
+.cover-box .v small{display:block;color:var(--mut);font-weight:400;font-size:.85em;}
+/* tier strip (kinetic engine) */
+.tierstrip{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:32px;}
+.tstep{border:1px solid var(--line);border-radius:14px;padding:16px 8px 14px;text-align:center;background:rgba(255,255,255,.03);}
+.tstep .v{font-weight:800;color:var(--cream);font-size:1.1em;}
+.tstep .m{color:var(--cyan);font-weight:700;margin-top:4px;font-size:1.05em;}
+.tstep.hot{border-color:rgba(255,107,157,.6);background:rgba(255,107,157,.08);}
+.tstep.hot .m{color:var(--pink);}
+.tstep .tag{display:block;font-size:.68em;color:var(--pink);letter-spacing:.1em;margin-top:5px;text-transform:uppercase;}
+/* mini hush diagram */
+.hushmini{position:relative;height:130px;border:1px solid var(--line);border-radius:16px;margin-top:32px;overflow:hidden;background:linear-gradient(180deg,rgba(134,206,235,.06),transparent);}
+.hushmini .wall{position:absolute;left:0;top:0;bottom:0;width:24%;background:repeating-linear-gradient(115deg,rgba(134,206,235,.35) 0 12px,rgba(134,206,235,.12) 12px 24px);border-right:2px solid rgba(134,206,235,.7);}
+.hushmini .wall span{position:absolute;top:12px;left:14px;font-size:.75em;letter-spacing:.25em;color:#BFE8F5;font-weight:700;}
+.hushmini .pl{position:absolute;right:12%;top:50%;width:22px;height:22px;transform:translateY(-50%) rotate(45deg);background:var(--gold);border-radius:5px;box-shadow:0 0 18px rgba(232,182,76,.8);}
+.hushmini .gap{position:absolute;left:24%;right:12%;top:50%;border-top:2px dashed rgba(242,234,216,.4);}
+.hushmini .gap span{position:absolute;top:-30px;left:50%;transform:translateX(-50%);font-size:.8em;color:var(--mut);letter-spacing:.08em;white-space:nowrap;}
+.hushmini .gnd{position:absolute;left:0;right:0;bottom:16px;height:1px;background:rgba(242,234,216,.18);}
+/* footer note per slide */
+.foot-note{margin-top:34px;color:var(--mut);font-size:.98em;}
+.foot-note b{color:var(--cream);}
+/* ---------- lightbox ---------- */
+.lboverlay{position:fixed;inset:0;background:rgba(5,12,10,.92);backdrop-filter:blur(10px);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.35s ease;}
+.lboverlay.open{opacity:1;visibility:visible;}
+.lbbox{width:min(1080px,93vw);max-height:87vh;overflow:auto;background:linear-gradient(165deg,#132720,#0D1B16);border:1px solid rgba(86,224,232,.3);border-radius:22px;padding:38px 44px;box-shadow:0 40px 120px rgba(0,0,0,.6);transform:scale(.94);transition:.35s ease;}
+.lboverlay.open .lbbox{transform:scale(1);}
+.lbhead{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:26px;}
+#lbtitle{font-size:1.7em;font-weight:800;color:var(--cream);}
+#lbtitle::after{content:"";display:block;width:60px;height:3px;background:var(--gold);margin-top:12px;border-radius:2px;}
+.lbclose{flex:0 0 46px;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--cream);font-size:20px;cursor:pointer;transition:.25s ease;}
+.lbclose:hover{background:rgba(255,107,157,.8);transform:rotate(90deg);}
+/* tier chart */
+.tierchart{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;align-items:end;padding:10px 4px 0;}
+.tcol{text-align:center;}
+.tbar{width:100%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,rgba(86,224,232,.75),rgba(86,224,232,.08));border:1px solid rgba(86,224,232,.4);margin:0 auto 12px;}
+.tcol.hot .tbar{background:linear-gradient(180deg,rgba(255,107,157,.8),rgba(255,107,157,.08));border-color:rgba(255,107,157,.5);}
+.tcol .tv{color:var(--cream);font-weight:800;font-size:1.05em;}
+.tcol .tm{color:var(--cyan);font-weight:700;margin-top:2px;}
+.tcol.hot .tm{color:var(--pink);}
+.tcol .tn{color:var(--mut);font-size:.85em;margin-top:4px;letter-spacing:.12em;}
+.tnote{margin-top:26px;color:var(--body);line-height:1.8;font-size:1.02em;}
+.tnote b{color:var(--pink);}
+/* loop big */
+.loopbig{display:flex;flex-direction:column;gap:16px;}
+.looprow{display:flex;align-items:center;gap:18px;}
+.loopnode{flex:0 0 210px;border:1px solid rgba(86,224,232,.4);background:rgba(86,224,232,.07);border-radius:14px;padding:18px 22px;font-weight:800;color:var(--cream);font-size:1.1em;text-align:center;}
+.loopdesc{color:var(--body);line-height:1.65;font-size:1.02em;}
+.loopback{margin-top:8px;text-align:center;color:var(--gold);font-weight:700;letter-spacing:.08em;}
+/* hush big */
+.hushbig{position:relative;height:240px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,rgba(134,206,235,.07),transparent 70%);}
+.hushbig .wall{position:absolute;left:0;top:0;bottom:0;width:20%;background:repeating-linear-gradient(115deg,rgba(134,206,235,.4) 0 14px,rgba(134,206,235,.12) 14px 28px);border-right:3px solid rgba(134,206,235,.75);}
+.hushbig .wall span{position:absolute;writing-mode:vertical-rl;top:20px;left:50%;transform:translateX(-50%);letter-spacing:.5em;color:#BFE8F5;font-weight:800;font-size:.95em;}
+.hushbig .gnd{position:absolute;left:0;right:0;bottom:34px;height:2px;background:rgba(242,234,216,.2);}
+.hushbig .pl{position:absolute;right:9%;bottom:36px;width:26px;height:26px;transform:rotate(45deg);background:var(--gold);border-radius:6px;box-shadow:0 0 22px rgba(232,182,76,.85);}
+.hushbig .arrow{position:absolute;left:22%;right:9%;bottom:52px;border-top:2px dashed rgba(255,107,157,.6);}
+.hushbig .arrow::before{content:"";position:absolute;right:-2px;top:-6px;border-left:12px solid rgba(255,107,157,.7);border-top:6px solid transparent;border-bottom:6px solid transparent;}
+.hushbig .lbl{position:absolute;bottom:64px;left:38%;color:var(--pink);letter-spacing:.14em;font-size:.9em;font-weight:600;}
+/* biome timeline */
+.btl{display:flex;flex-direction:column;gap:0;}
+.brow{display:flex;align-items:center;gap:22px;padding:17px 6px;border-bottom:1px dashed rgba(242,234,216,.12);}
+.brow:last-child{border-bottom:none;}
+.bnum{flex:0 0 44px;height:44px;transform:rotate(45deg);border-radius:9px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--cyan),#1e7f8a);}
+.bnum i{transform:rotate(-45deg);font-style:normal;font-weight:800;color:#06201F;}
+.bname{flex:0 0 240px;font-weight:800;color:var(--cream);font-size:1.12em;}
+.bdot{flex:0 0 14px;width:14px;height:14px;border-radius:50%;}
+.bdesc{color:var(--body);line-height:1.6;}
+/* arsenal list */
+.wrow{display:flex;gap:20px;align-items:baseline;padding:15px 4px;border-bottom:1px dashed rgba(242,234,216,.12);}
+.wrow:last-child{border-bottom:none;}
+.wname{flex:0 0 250px;font-weight:800;color:var(--cyan);}
+.wevo{flex:0 0 210px;color:var(--gold);font-size:.92em;letter-spacing:.05em;}
+.wdesc{color:var(--body);line-height:1.6;}
+@media (max-width:1100px){
+  .slide{padding:52px 48px 120px;}
+  .grid3{grid-template-columns:1fr 1fr;}
+  .tierstrip,.tierchart{grid-template-columns:repeat(3,1fr);}
+  .cover-cols{grid-template-columns:1fr;}
+  .grid2{grid-template-columns:1fr;}
+  .wave{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="rainbow-bar"></div>
+<div class="progress" id="progress"></div>
+<!-- SLIDE 1 · COVER -->
+<section class="slide cover active">
+  <svg class="wave w1" viewBox="0 0 300 60" fill="none"><path d="M0 30 Q 37 5 75 30 T 150 30 T 225 30 T 300 30" stroke="#FF6B9D" stroke-width="5" stroke-linecap="round"/><path d="M0 46 Q 37 24 75 46 T 150 46 T 225 46 T 300 46" stroke="#56E0E8" stroke-width="4" stroke-linecap="round" opacity=".7"/></svg>
+  <svg class="wave w2" viewBox="0 0 300 60" fill="none"><path d="M0 30 Q 37 5 75 30 T 150 30 T 225 30 T 300 30" stroke="#56E0E8" stroke-width="5" stroke-linecap="round"/><path d="M0 46 Q 37 24 75 46 T 150 46 T 225 46 T 300 46" stroke="#E8B64C" stroke-width="4" stroke-linecap="round" opacity=".7"/></svg>
+  <div class="inner">
+    <div class="logo"><div class="d d1"></div><div class="d d2"></div><div class="d d3"></div></div>
+    <div class="cover-kicker">English Presentation · Game Design</div>
+    <h1 class="cover-title">NEVER STILL</h1>
+    <div class="cover-sub">YOUR SPEED IS YOUR WEAPON</div>
+    <p class="cover-line">A motion-driven roguelite built from scratch —<br>designed to be played in Pomodoro breaks.</p>
+    <div class="cover-cols">
+      <div class="cover-box">
+        <div class="t">Created by</div>
+        <div class="v">[ Your Name ]<small>English class — [ Class · Date ]</small></div>
+      </div>
+      <div class="cover-box">
+        <div class="t">Playable build</div>
+        <div class="v">never_still.html<small>one file · zero install · runs in any browser</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2 · WHY GAMES -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">First, some context</div>
+    <h2 class="slide-title">Why Games <em>Matter</em></h2>
+    <p class="lead">Before I show you my game, a word about gaming in general. To me, games are not just entertainment — they are <b>systems you live inside</b>, and that changes how you think.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="num-badge"><i>1</i></span>Systems you inhabit</h3>
+        <p>You don't watch a game — you live inside its rules. That teaches <span class="cy">cause and effect</span> faster than any lecture: try something, get feedback, adapt.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>2</i></span>The state of flow</h3>
+        <p>Good games balance challenge and skill. Psychologists call it <span class="cy">flow</span> — full focus, lost track of time. It's the same feeling as a great study session.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>3</i></span>A real reset button</h3>
+        <p>A short, intense game clears my head between work sessions. Not scrolling — <span class="cy">playing</span>. Trust me, there is a difference.</p>
+      </div>
+    </div>
+    <p class="foot-note">Which raises a question: <b>what do you actually play in a five-minute break?</b></p>
+  </div>
+</section>
+
+<!-- SLIDE 3 · POMODORO -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">The origin story</div>
+    <h2 class="slide-title">Born in a <em>Pomodoro</em> Break</h2>
+    <div class="grid2">
+      <div>
+        <p class="lead">The Pomodoro technique: <b>25 minutes of focus, 5 minutes of break</b>. In theory, those breaks recharge you. In practice, most of mine died in a social media feed — and I came back <i>more</i> tired.</p>
+        <p class="lead" style="margin-top:18px;">So I listed what my dream break-game would need:</p>
+        <div class="strip">
+          <span class="chip"><b>A full session in ~15 min</b> — fits a break</span>
+          <span class="chip"><b>Instant start &amp; stop</b> — no loading, no tutorial</span>
+          <span class="chip"><b>Real progress</b> — never a wasted run</span>
+        </div>
+      </div>
+      <div class="card" style="display:flex;flex-direction:column;justify-content:center;">
+        <h3>But no game fit</h3>
+        <p>Mobile games were designed to <span class="pk">keep</span> me, not to <span class="cy">release</span> me back to work. Big PC games needed an hour just to warm up.</p>
+        <p style="margin-top:14px;">I kept thinking: <b>someone should build the perfect break game.</b></p>
+      </div>
+    </div>
+    <div class="quote">"What if a break felt like an adventure?" — <span>so I started building one, during my breaks.</span></div>
+  </div>
+</section>
+
+<!-- SLIDE 4 · ROGUELITE -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">The genre</div>
+    <h2 class="slide-title">Roguelite, <em>Explained</em></h2>
+    <p class="lead">A <span class="hl">roguelite</span> is a genre named after <b>Rogue</b> (1980). Every time you play, it's a <b>run</b>: a short, self-contained life for your character. Death is not the end of your progress — it <i>is</i> the loop.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="num-badge"><i>R</i></span>Runs</h3>
+        <p>Each attempt is short and self-contained — 15 to 30 minutes in my case. Die, restart, and the run is a <span class="cy">fresh puzzle</span> every time.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>P</i></span>Permadeath</h3>
+        <p>No reloading an old save. When you die, that character is gone. It sounds cruel, but it makes every decision <span class="cy">taste real</span>.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>M</i></span>Meta-progression</h3>
+        <p>Every run — even a failure — earns currency for <span class="cy">permanent upgrades</span>. This is what makes it "<b>lite</b>": progress softens the sting.</p>
+      </div>
+    </div>
+    <div class="strip">
+      <span class="chip">Famous examples:</span>
+      <span class="chip"><b>Hades</b></span><span class="chip arrow">·</span>
+      <span class="chip"><b>Dead Cells</b></span><span class="chip arrow">·</span>
+      <span class="chip"><b>Vampire Survivors</b></span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5 · VAMPIRE SURVIVORS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Inspiration Nº1</div>
+    <h2 class="slide-title">Vampire <em>Survivors</em></h2>
+    <div class="grid2">
+      <div>
+        <p class="lead">A phenomenon sold for five dollars: hundreds of monsters flood the screen, and you have exactly <b>one job — move</b>. Attacks fire automatically. The controls disappear, and pure <span class="hl">game feel</span> remains.</p>
+        <p class="lead" style="margin-top:18px;">It proved something important: <b>simplicity is not a limitation — it's the design.</b></p>
+      </div>
+      <div class="card">
+        <h3>What I borrowed</h3>
+        <p><span class="gd">▸</span> <b>Huge crowds</b> — hundreds of enemies at once, so performance became an obsession of mine.</p>
+        <p style="margin-top:12px;"><span class="gd">▸</span> <b>One-line controls</b> — if you can explain it in one breath, players stay.</p>
+        <p style="margin-top:12px;"><span class="gd">▸</span> <b>Juice</b> — every single kill must feel crunchy and rewarding.</p>
+        <p style="margin-top:12px;"><span class="gd">▸</span> <b>Build variety</b> — new combo every run.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- SLIDE 6 · SHAPE OF DREAMS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Inspiration Nº2</div>
+    <h2 class="slide-title">Shape of <em>Dreams</em></h2>
+    <div class="grid2">
+      <div>
+        <p class="lead">An action roguelite where <b>movement <i>is</i> the combat</b>: you dash through enemies, chain repositions, and the characters are bold, readable silhouettes you can parse in the middle of chaos.</p>
+        <p class="lead" style="margin-top:18px;">It asked a question that stuck with me: <span class="hl">what if dodging felt as powerful as attacking?</span></p>
+      </div>
+      <div class="card">
+        <h3>What I borrowed</h3>
+        <p><span class="gd">▸</span> <b>Motion as identity</b> — how you move should define how the game feels.</p>
+        <p style="margin-top:12px;"><span class="gd">▸</span> <b>Sculptural enemies</b> — readable at a glance, even with fifty things on screen.</p>
+        <p style="margin-top:12px;"><span class="gd">▸</span> <b>Speed is rewarded</b>, never punished.</p>
+      </div>
+    </div>
+    <div class="quote">That idea — <span>motion as a weapon</span> — became the engine of NEVER STILL.</div>
+  </div>
+</section>
+
+<!-- SLIDE 7 · THE PITCH -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">The game</div>
+    <h2 class="slide-title">NEVER STILL — <em>The Pitch</em></h2>
+    <p class="lead">A 15–30 minute roguelite where your <b>velocity decides your damage</b>. Behind you, the <span class="pk">Hush</span> — a wall of frozen silence — is always advancing. If you stop, the world stops <i>you</i>.</p>
+    <div class="loopchips">
+      <div class="lnode">MOVE<small>speed builds momentum</small></div>
+      <span class="larr">→</span>
+      <div class="lnode">DEAL DAMAGE<small>scaled by velocity</small></div>
+      <span class="larr">→</span>
+      <div class="lnode">KILL<small>shards burst out</small></div>
+      <span class="larr">→</span>
+      <div class="lnode">HEAL<small>+0.4 HP per kill</small></div>
+      <span class="larr">⟲</span>
+    </div>
+    <div class="ministats">
+      <div class="m"><b>V0–V5</b><span>SIX SPEED TIERS</span></div>
+      <div class="m"><b>5</b><span>BIOMES THAT SHIFT</span></div>
+      <div class="m"><b>2:30</b><span>PER WARLORD DUEL</span></div>
+    </div>
+    <p class="foot-note"><b>"Standing still is the only wrong move."</b></p>
+  </div>
+</section>
+
+<!-- SLIDE 8 · KINETIC ENGINE -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Core mechanic Nº1</div>
+    <h2 class="slide-title">The Kinetic <em>Engine</em></h2>
+    <p class="lead">Six speed tiers, <b>V0 to V5</b>. The faster you move, the harder <i>everything</i> hits — weapons, pulses, even your defensive plays.</p>
+    <div class="tierstrip">
+      <div class="tstep"><div class="v">V0</div><div class="m">×0.5</div><small style="color:var(--mut)">idle</small></div>
+      <div class="tstep"><div class="v">V1</div><div class="m">×1.0</div><small style="color:var(--mut)">walk</small></div>
+      <div class="tstep"><div class="v">V2</div><div class="m">×1.5</div><small style="color:var(--mut)">run</small></div>
+      <div class="tstep hot"><div class="v">V3</div><div class="m">×2.0</div><span class="tag">shards unlock</span></div>
+      <div class="tstep"><div class="v">V4</div><div class="m">×3.0</div><small style="color:var(--mut)">dash-chained</small></div>
+      <div class="tstep"><div class="v">V5</div><div class="m">×4.5</div><small style="color:var(--mut)">terminal</small></div>
+    </div>
+    <div class="grid3" style="margin-top:30px;">
+      <div class="card"><h3><span class="kbd">SHIFT</span></h3><p><b>Dash</b> — a sine-shaped burst of speed, ~9 metres long. Chaining dashes is how you climb tiers.</p></div>
+      <div class="card"><h3><span class="kbd">RMB</span></h3><p><b>Grapple</b> — infinite hook that yanks you forward and <span class="cy">keeps your momentum</span> on release.</p></div>
+      <div class="card"><h3><span class="kbd">LMB</span></h3><p><b>Shatter Pulse</b> — a shockwave whose damage scales with speed and tier. It also erases enemy bullets.</p></div>
+    </div>
+    <div class="card expand" data-lb="lb-tiers" data-title="Kinetic Engine — the full ramp" style="margin-top:26px;">
+      <h3><span class="num-badge"><i>+</i></span>How the ramp really works</h3>
+      <p>Tier thresholds, momentum shards at V3+, and why dying at V5 hurts so much.</p>
+      <span class="expand-hint">click to expand</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9 · THE HUSH -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Core mechanic Nº2</div>
+    <h2 class="slide-title">The <em>Hush</em></h2>
+    <p class="lead">A frozen wall that is <b>always advancing</b> behind you. It never speeds up to catch you — but it never, ever stops. Touch it and your health starts to freeze away.</p>
+    <div class="hushmini" style="height:108px;margin-top:26px;">
+      <div class="wall"><span>THE HUSH</span></div>
+      <div class="gap"><span>safe distance — always shrinking</span></div>
+      <div class="pl"></div>
+      <div class="gnd"></div>
+    </div>
+    <div class="grid3" style="margin-top:22px;">
+      <div class="card"><h3><span class="num-badge"><i>1</i></span>No camping</h3><p>There is no safe corner, no hideout. Every second you spend standing still is a second the wall gets <span class="cy">closer</span>.</p></div>
+      <div class="card"><h3><span class="num-badge"><i>2</i></span>Route, don't react</h3><p>The Hush turns the map into a <span class="cy">routing puzzle</span>: plan your path through enemies instead of fighting in place.</p></div>
+      <div class="card"><h3><span class="num-badge"><i>3</i></span>Bosses can't hide</h3><p>When a boss lags too far behind, the Hush <span class="cy">teleports it forward</span> — even Warlords must keep up with you.</p></div>
+    </div>
+    <div class="card expand" data-lb="lb-hush" data-title="The Hush — chase diagram" style="margin-top:20px;padding-top:22px;padding-bottom:22px;">
+      <h3><span class="num-badge"><i>+</i></span>The chase, visualised</h3>
+      <p>A side-view diagram of the wall, the shrinking safe gap, and how the pressure curve works over a run.</p>
+      <span class="expand-hint">click to expand</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10 · ARSENAL -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Toys</div>
+    <h2 class="slide-title">Weapons, Shards &amp; <em>Mods</em></h2>
+    <p class="lead">Between levels, your build is rewritten by what the run gives you. Three systems stack together:</p>
+    <div class="grid3">
+      <div class="card"><h3><span class="num-badge"><i>5</i></span>Weapons + evolutions</h3><p>Five weapons — including the <span class="cy">Arc Tether</span>, a grappling gun that chains enemies — each with one powerful <b>evolution</b> form.</p></div>
+      <div class="card"><h3><span class="num-badge"><i>✦</i></span>Momentum shards</h3><p>At V3+, kills burst into <span class="cy">piercing fragments</span> that fly onward and chain more kills. Speed literally reproduces itself.</p></div>
+      <div class="card"><h3><span class="num-badge"><i>19</i></span>Mods</h3><p>About <span class="cy">nineteen mods</span> — mutators that bend the rules of your build every run, so no two runs play alike.</p></div>
+    </div>
+    <div class="card expand" data-lb="lb-arsenal" data-title="Arsenal — roles & evolutions" style="margin-top:26px;">
+      <h3><span class="num-badge"><i>+</i></span>The full arsenal</h3>
+      <p>What each weapon role does, its evolution, and examples of mods rewriting your build.</p>
+      <span class="expand-hint">click to expand</span>
+    </div>
+  </div>
+</section>
+<!-- SLIDE 11 · WARLORD LADDER -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Structure</div>
+    <h2 class="slide-title">The Warlord <em>Ladder</em></h2>
+    <p class="lead">Every <b>2 minutes 30 seconds</b>, a Warlord comes hunting: <span class="pk">Auditor</span> → <span class="pk">Koss</span> → <span class="pk">The Widow</span>, in a rising cycle. And when one falls, the whole world <b>rewrites itself</b> into the next biome.</p>
+    <div class="strip">
+      <span class="chip"><b>Verdant Ruins</b></span><span class="chip arrow">→</span>
+      <span class="chip"><b>Neon District</b></span><span class="chip arrow">→</span>
+      <span class="chip"><b>Scraplands</b></span><span class="chip arrow">→</span>
+      <span class="chip"><b>Sunken Canopy</b></span><span class="chip arrow">→</span>
+      <span class="chip"><b>Glass Sea</b></span>
+    </div>
+    <div class="grid2" style="margin-top:30px;">
+      <div class="card">
+        <h3><span class="num-badge"><i>10:00</i></span>The extraction decision</h3>
+        <p>A beacon appears. Enter it and <b>bank your ashes ×1.5</b> — or refuse it and gamble in <span class="pk">overtime</span> for a bigger score, with bigger danger.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>⌂</i></span>Why biomes switch</h3>
+        <p>Each Warlord death swaps the world — new palette, new weather, new hazards. It keeps a single run feeling like <span class="cy">five games in one</span>.</p>
+      </div>
+    </div>
+    <div class="card expand" data-lb="lb-biomes" data-title="World shift — the full timeline" style="margin-top:26px;">
+      <h3><span class="num-badge"><i>+</i></span>The full world timeline</h3>
+      <p>All five biomes, their identity in one line, and how the Warlord cycle drives the shifts.</p>
+      <span class="expand-hint">click to expand</span>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12 · PLAY IT -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Hands on</div>
+    <h2 class="slide-title">Play It <em>Yourself</em></h2>
+    <div class="grid2">
+      <div class="card">
+        <h3>Controls — one line, like promised</h3>
+        <div style="margin-top:16px;">
+          <div class="kbd-row"><span class="keys"><span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span></span><span class="what">Move</span><span>— speed is everything</span></div>
+          <div class="kbd-row"><span class="keys"><span class="kbd">SHIFT</span><span class="kbd">SPACE</span></span><span class="what">Dash</span><span>— the 9-metre burst</span></div>
+          <div class="kbd-row"><span class="keys"><span class="kbd">RMB</span><span class="kbd">G</span></span><span class="what">Grapple</span><span>— infinite, keeps momentum</span></div>
+          <div class="kbd-row"><span class="keys"><span class="kbd">LMB</span></span><span class="what">Shatter pulse</span><span>— clears bullets</span></div>
+          <div class="kbd-row"><span class="keys"><span class="kbd">E</span></span><span class="what">Overload</span><span>— spend it wisely</span></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:26px;">
+        <div class="card">
+          <h3>The Last Train</h3>
+          <p>Between runs, a <b>permanent shop</b>: every failure still earns <span class="gd">Cinders</span> to buy lasting upgrades. Saved right in your browser — death is never wasted.</p>
+        </div>
+        <div class="card">
+          <h3>never_still.html</h3>
+          <p>One file. Zero install. Any browser. <span class="cy">500+ entities at 60 fps</span> — my obsession since Vampire Survivors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 13 · LESSONS -->
+<section class="slide">
+  <div class="inner">
+    <div class="kicker">Post-mortem</div>
+    <h2 class="slide-title">What Building It <em>Taught Me</em></h2>
+    <div class="grid3">
+      <div class="card">
+        <h3><span class="num-badge"><i>1</i></span>Motion is emotion</h3>
+        <p>How you move is how a game <i>feels</i>. Tuning speed curves taught me more about game feel than any art asset ever did.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>2</i></span>Scope small, polish big</h3>
+        <p>One mechanic pushed to its limit beats ten half-built ones. I cut more features than I kept — and the game got better <span class="cy">every time</span>.</p>
+      </div>
+      <div class="card">
+        <h3><span class="num-badge"><i>3</i></span>Playtest ugly</h3>
+        <p>My spreadsheet said a mechanic was balanced. Five minutes of my sister playing proved it was a <span class="cy">lie</span>. Test early, test ugly.</p>
+      </div>
+    </div>
+    <div class="quote">And yes — my Pomodoro breaks are now <span>dangerously fun</span>. Discipline is harder than game design.</div>
+  </div>
+</section>
+
+<!-- SLIDE 14 · THANKS -->
+<section class="slide">
+  <div class="inner" style="text-align:center;">
+    <div class="logo" style="margin-bottom:26px;"><div class="d d1"></div><div class="d d2"></div><div class="d d3"></div></div>
+    <h2 class="slide-title" style="font-size:clamp(2.8em,5.5vw,4.6em);">Thank <em>You</em></h2>
+    <p class="lead" style="margin:0 auto;text-align:center;">Any questions? And if the classroom Wi-Fi allows… <span class="hl">want to see a live run?</span></p>
+    <div class="strip" style="justify-content:center;margin-top:44px;">
+      <span class="chip">NEVER STILL — built in a single HTML file</span>
+      <span class="chip">Inspired by <b>Vampire Survivors</b> &amp; <b>Shape of Dreams</b></span>
+      <span class="chip">[ Your Name ] · [ Class · Date ]</span>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX TEMPLATES -->
+<template id="lb-tiers">
+  <div class="tierchart">
+    <div class="tcol"><div class="tbar" style="height:44px"></div><div class="tv">V0</div><div class="tm">×0.5</div><div class="tn">IDLE</div></div>
+    <div class="tcol"><div class="tbar" style="height:76px"></div><div class="tv">V1</div><div class="tm">×1.0</div><div class="tn">WALK</div></div>
+    <div class="tcol"><div class="tbar" style="height:112px"></div><div class="tv">V2</div><div class="tm">×1.5</div><div class="tn">RUN</div></div>
+    <div class="tcol hot"><div class="tbar" style="height:150px"></div><div class="tv">V3</div><div class="tm">×2.0</div><div class="tn">SHARDS</div></div>
+    <div class="tcol"><div class="tbar" style="height:192px"></div><div class="tv">V4</div><div class="tm">×3.0</div><div class="tn">DASH-CHAINED</div></div>
+    <div class="tcol"><div class="tbar" style="height:238px"></div><div class="tv">V5</div><div class="tm">×4.5</div><div class="tn">TERMINAL</div></div>
+  </div>
+  <p class="tnote"><b>Momentum shards (V3+):</b> kills burst into piercing fragments that damage enemies behind the target — speed starts producing more speed.</p>
+  <p class="tnote"><b>The trick:</b> tiers decay when you slow down, so a V5 player weaving through a crowd is always one bad turn away from V1. Risk <i>is</i> the resource.</p>
+</template>
+
+<template id="lb-hush">
+  <div class="hushbig">
+    <div class="wall"><span>THE HUSH</span></div>
+    <div class="gnd"></div>
+    <div class="arrow"></div>
+    <div class="lbl">safe gap — always shrinking</div>
+    <div class="pl"></div>
+  </div>
+  <p class="tnote"><b>Pressure curve:</b> the wall's speed is tuned so that a careful player stays 30–60 seconds ahead — until a fight, a bad grapple, or greed for one more chest burns the gap down.</p>
+  <p class="tnote"><b>Fair by design:</b> the Hush never accelerates. It simply refuses to negotiate. Bosses that fall behind get thrown forward into your face — the wall does not wait for drama.</p>
+</template>
+
+<template id="lb-arsenal">
+  <div class="wrow"><div class="wname">Arc Tether</div><div class="wevo">evolution: Stormline</div><div class="wdesc">A grappling gun: hook a point, slingshot through crowds, chain lightning along the tether.</div></div>
+  <div class="wrow"><div class="wname">Close-range blade</div><div class="wevo">evolution: afterimage strikes</div><div class="wdesc">Rewards cutting <i>through</i> enemies at full speed instead of standing and trading hits.</div></div>
+  <div class="wrow"><div class="wname">Projectile sidearm</div><div class="wevo">evolution: velocity-split rounds</div><div class="wdesc">The classic answer for damage at range — strongest when fired mid-dash.</div></div>
+  <div class="wrow"><div class="wname">Orbiting mote</div><div class="wevo">evolution: binary swarm</div><div class="wdesc">A passive satellite that shreds anything that chases you — the crowd's nightmare.</div></div>
+  <div class="wrow"><div class="wname">Area denial</div><div class="wevo">evolution: scorched trail</div><div class="wdesc">Drops hazards behind you: the perfect weapon for a game about never looking back.</div></div>
+  <p class="tnote"><b>Mods (≈19)</b> rewrite the rules mid-run — examples: shards ricochet toward new targets, grapple refunds dash cooldown, the Hush slows while you are above V4 (risky greed).</p>
+</template>
+
+<template id="lb-biomes">
+  <div class="btl">
+    <div class="brow"><div class="bnum"><i>1</i></div><div class="bname">Verdant Ruins</div><div class="bdot" style="background:#7CE87C"></div><div class="bdesc">Overgrown temples, golden dust in the air — the calm tutorial face of the world.</div></div>
+    <div class="brow"><div class="bnum"><i>2</i></div><div class="bname">Neon District</div><div class="bdot" style="background:#56E0E8"></div><div class="bdesc">Rain, neon grid floors, tall glass. The city never sleeps and neither do its drones.</div></div>
+    <div class="brow"><div class="bnum"><i>3</i></div><div class="bname">Scraplands</div><div class="bdot" style="background:#E8B64C"></div><div class="bdesc">Embers and scrapyards. Trash pursues you — sometimes literally.</div></div>
+    <div class="brow"><div class="bnum"><i>4</i></div><div class="bname">Sunken Canopy</div><div class="bdot" style="background:#8B7CF6"></div><div class="bdesc">Spores, humidity, bioluminescent fog. Visibility becomes a resource.</div></div>
+    <div class="brow"><div class="bnum"><i>5</i></div><div class="bname">Glass Sea</div><div class="bdot" style="background:#F2EAD8"></div><div class="bdesc">Everything sparkles. Everything cuts. The endgame coastline of broken light.</div></div>
+  </div>
+  <p class="tnote"><b>Driven by the ladder:</b> Auditor → Koss → The Widow, every 2:30. Each Warlord death fades the world into the next biome over ~2 seconds, with a title card — five games hidden inside one run.</p>
+</template>
+
+<!-- LIGHTBOX OVERLAY -->
+<div class="lboverlay" id="lboverlay">
+  <div class="lbbox">
+    <div class="lbhead">
+      <h3 id="lbtitle"></h3>
+      <button class="lbclose" onclick="closeLB()" aria-label="Close">✕</button>
+    </div>
+    <div id="lbcontent"></div>
+  </div>
+</div>
+
+<!-- FIXED CHROME -->
+<div class="counter"><span id="cur">1</span> / <span id="tot">?</span></div>
+<div class="nav-controls">
+  <button class="nav-btn" onclick="go(-1)" aria-label="Previous slide">←</button>
+  <button class="nav-btn" onclick="go(1)" aria-label="Next slide">→</button>
+</div>
+<div class="hintbar"><span><kbd>←</kbd> <kbd>→</kbd> navigate</span><span class="sep">·</span><span>click glowing cards to expand</span><span class="sep">·</span><span><kbd>F11</kbd> fullscreen</span></div>
+
+<script>
+(function(){
+  var sl = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var tot = sl.length;
+  var cur = document.getElementById('cur');
+  var totEl = document.getElementById('tot');
+  var bar = document.getElementById('progress');
+  var lb = document.getElementById('lboverlay');
+  var c = 0;
+  totEl.textContent = tot;
+
+  function show(n){
+    c = Math.max(0, Math.min(tot - 1, n));
+    for (var i = 0; i < tot; i++){
+      sl[i].classList.toggle('active', i === c);
+      sl[i].classList.toggle('prev', i < c);
+    }
+    cur.textContent = c + 1;
+    bar.style.width = ((c + 1) / tot * 100) + '%';
+    try { history.replaceState(null, '', '#' + (c + 1)); } catch(e){}
+  }
+
+  window.go = function(d){
+    if (lb.classList.contains('open')) return;
+    show(c + d);
+  };
+  window.closeLB = function(){ lb.classList.remove('open'); };
+  window.openLB = function(id, title){
+    var t = document.getElementById(id);
+    var box = document.getElementById('lbcontent');
+    document.getElementById('lbtitle').textContent = title || '';
+    box.innerHTML = '';
+    if (t) box.appendChild(t.content.cloneNode(true));
+    lb.classList.add('open');
+  };
+
+  lb.addEventListener('click', function(e){ if (e.target === lb) closeLB(); });
+
+  var triggers = document.querySelectorAll('[data-lb]');
+  for (var i = 0; i < triggers.length; i++){
+    (function(el){
+      el.addEventListener('click', function(){
+        openLB(el.getAttribute('data-lb'), el.getAttribute('data-title') || '');
+      });
+    })(triggers[i]);
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (lb.classList.contains('open')){
+      if (e.key === 'Escape' || e.key === 'Enter') closeLB();
+      return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' '){ e.preventDefault(); go(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(-1); }
+    else if (e.key === 'Home'){ e.preventDefault(); show(0); }
+    else if (e.key === 'End'){ e.preventDefault(); show(tot - 1); }
+  });
+
+  var tx = 0;
+  document.addEventListener('touchstart', function(e){ tx = e.changedTouches[0].screenX; }, {passive:true});
+  document.addEventListener('touchend', function(e){
+    var d = tx - e.changedTouches[0].screenX;
+    if (Math.abs(d) > 50) go(d > 0 ? 1 : -1);
+  }, {passive:true});
+
+  var h = parseInt((location.hash || '').replace('#',''), 10);
+  show(isNaN(h) ? 0 : h - 1);
+})();
+</script>
+</body>
+</html>
